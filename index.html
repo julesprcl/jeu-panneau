@@ -16,23 +16,24 @@
   </div>
 
   <script>
-    // Initialisation unique
+    // Initialisation unique et sécurisée
+    // Remplace "TA_CLE_ANON_PUBLIC" par ta clé 'anon public' du dashboard Supabase
     const supabase = window.supabase.createClient(
       "https://knqvszzkhdzwnvmbjmma.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyYm9kend5ZW1hc3BzZnV3cnBnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjQwMzcsImV4cCI6MjA5NTA0MDAzN30.GuGYee7-Sf4YgllVwbSTR4tfPc6CrocSxiH77U1bZtE" // Remplace par ta clé 'anon public'
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyYm9kend5ZW1hc3BzZnV3cnBnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjQwMzcsImV4cCI6MjA5NTA0MDAzN30.GuGYee7-Sf4YgllVwbSTR4tfPc6CrocSxiH77U1bZtE"
     );
 
     document.getElementById('login-btn').addEventListener('click', async () => {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      
-      if (error) {
-        alert("Erreur : " + error.message);
-      } else {
+      try {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
         alert("Connexion réussie !");
-        window.location.reload();
+        location.reload();
+      } catch (err) {
+        alert("Erreur : " + err.message);
       }
     });
   </script>
