@@ -19,16 +19,21 @@
     // Initialisation unique
     const supabase = window.supabase.createClient(
       "https://knqvszzkhdzwnvmbjmma.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyYm9kend5ZW1hc3BzZnV3cnBnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjQwMzcsImV4cCI6MjA5NTA0MDAzN30.GuGYee7-Sf4YgllVwbSTR4tfPc6CrocSxiH77U1bZtE" 
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyYm9kend5ZW1hc3BzZnV3cnBnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjQwMzcsImV4cCI6MjA5NTA0MDAzN30.GuGYee7-Sf4YgllVwbSTR4tfPc6CrocSxiH77U1bZtE" // Remplace par ta clé 'anon public'
     );
 
     document.getElementById('login-btn').addEventListener('click', async () => {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
       
-      if (error) alert("Erreur : " + error.message);
-      else alert("Connexion réussie !");
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      
+      if (error) {
+        alert("Erreur : " + error.message);
+      } else {
+        alert("Connexion réussie !");
+        window.location.reload();
+      }
     });
   </script>
 </body>
