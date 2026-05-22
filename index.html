@@ -6,9 +6,9 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex items-center justify-center p-4">
+<body class="bg-slate-950 text-white min-h-screen p-4">
 
-  <div class="w-full max-w-sm bg-slate-900 p-8 rounded-xl border border-slate-800">
+  <div id="auth-screen" class="max-w-md mx-auto bg-slate-900 p-8 rounded-xl border border-slate-800">
     <h1 class="text-2xl font-bold mb-6 text-center text-blue-500">SIGNHUNTER</h1>
     <input type="email" id="email" placeholder="Email" class="w-full p-3 mb-4 bg-slate-800 rounded border border-slate-700">
     <input type="password" id="password" placeholder="Mot de passe" class="w-full p-3 mb-6 bg-slate-800 rounded border border-slate-700">
@@ -16,24 +16,24 @@
   </div>
 
   <script>
-    // Initialisation unique et sécurisée
-    // Remplace "TA_CLE_ANON_PUBLIC" par ta clé 'anon public' du dashboard Supabase
+    // 1. Initialisation de Supabase (une seule instance)
+    // Remplace par ta clé 'anon' du dashboard Supabase
     const supabase = window.supabase.createClient(
       "https://knqvszzkhdzwnvmbjmma.supabase.co",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyYm9kend5ZW1hc3BzZnV3cnBnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjQwMzcsImV4cCI6MjA5NTA0MDAzN30.GuGYee7-Sf4YgllVwbSTR4tfPc6CrocSxiH77U1bZtE"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVyYm9kend5ZW1hc3BzZnV3cnBnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0NjQwMzcsImV4cCI6MjA5NTA0MDAzN30.GuGYee7-Sf4YgllVwbSTR4tfPc6CrocSxiH77U1bZtE" 
     );
 
+    // 2. Gestion du clic
     document.getElementById('login-btn').addEventListener('click', async () => {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       
-      try {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      
+      if (error) {
+        alert("Erreur : " + error.message);
+      } else {
         alert("Connexion réussie !");
-        location.reload();
-      } catch (err) {
-        alert("Erreur : " + err.message);
       }
     });
   </script>
